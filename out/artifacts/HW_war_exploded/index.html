@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="/favicon.ico">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>程序员专用表白可视化屏</title>
+  <link rel="stylesheet" href="css/index.css" />
+<!--  <script>
+    var t = null;
+    t = setTimeout(time, 1000);//開始运行
+    function time() {
+      clearTimeout(t);//清除定时器
+      dt = new Date();
+      var y = dt.getFullYear();
+      var mt = dt.getMonth() + 1;
+      var day = dt.getDate();
+      var h = dt.getHours();//获取时
+      var m = dt.getMinutes();//获取分
+      var s = dt.getSeconds();//获取秒
+      // 为类名为`.showTime`的元素添加时间
+      document.querySelector(".showTime").innerHTML = '当前时间：' + y + "/" + mt + "/" + day + "  " + h + ":" + m + ":" + s;
+      t = setTimeout(time, 1000);//设定定时器，循环运行
+    }
+  </script>-->
+</head>
+<body>
+  <header>
+    <h1>表白数据可视化屏</h1>
+<!--    <div class="showTime">当前时间：<span></span></div>-->
+  </header>
+  <section class="mainbox">
+    <div class="column">
+      <div class="panel bar">
+        <h2>
+          表白至今关怀短信发送数量
+        </h2>
+        <div class="chart"></div>
+        <div class="panel-footer"></div>
+      </div>
+      <div class="panel line">
+        <h2>未来五天温度变化</h2>
+        <div class="chart"></div>
+        <div class="panel-footer"></div>
+      </div>
+      <div class="panel pie">
+        <h2>表白至今温度区间天数分布</h2>
+        <div class="chart"></div>
+        <div class="panel-footer"></div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="no">
+        <div class="no-hd">
+          <ul>
+            <li class="dcount">108</li>
+            <li class="lcount">10886405</li>
+          </ul>
+        </div>
+        <div class="no-bd">
+          <ul>
+            <li>追求天数</li>
+            <li>心跳次数</li>
+          </ul>
+        </div>
+      </div>
+      <div class="map">
+        <div class="chart"></div>
+        <div class="map1"></div>
+        <div class="map2"></div>
+        <div class="map3"></div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="panel bar1">
+        <h2>表白至今风向数据分布</h2>
+        <div class="chart"></div>
+        <div class="panel-footer"></div>
+      </div>
+      <div class="panel line1">
+        <h2>未来五天风速大小</h2>
+        <div class="chart"></div>
+        <div class="panel-footer"></div>
+      </div>
+      <div class="panel pie1">
+        <h2>表白至今每天天气占比</h2>
+        <div class="chart"></div>
+        <div class="panel-footer"></div>
+      </div>
+    </div>
+  </section>
+  <script src="js/flexible.js"></script>
+  <script src="js/echarts.min.js"></script>
+  <script>
+    var gData = {"smsType":{"names":["情话"],"values":[1]},"status":0,"temp":{"high":["10","11","12","13","14"],"low":["10","11","12","13","14"]},"tempType":[0,1,0,0,0],"time":1625396175198,"weatherType":[{"name":"晴","value":1}],"winddirect":{"names":["南风"],"values":[1]},"windpower":{"high":["10","11","12","13","14"],"low":["10","11","12","13","14"]}};
+
+    (function (fn) {
+      fn();
+      //加载数据，每10分钟加载一次。
+      setInterval(fn, 600000);
+    })(function () {
+      var xhr=new XMLHttpRequest();
+      xhr.open('GET','dataView',true);
+      xhr.onreadystatechange=function(){
+        // readyState == 4说明请求已完成
+        if(xhr.readyState==4){
+          if(xhr.status==200 || xhr.status==304){
+            gData = JSON.parse(xhr.responseText);
+            time = gData.time
+            chartResize();
+          }
+        }
+      }
+      xhr.send();
+    });
+
+    //这里开始时间
+    let time = 0;
+
+    (function (fn) {
+      fn();
+      setInterval(fn, 857);
+    })(function () {
+
+      let text = parseInt((new Date().getTime() - time)/3600000/24);
+      document.querySelector(".dcount").innerHTML = text;
+      text = parseInt((new Date().getTime() - time)/60000*70);
+      document.querySelector(".lcount").innerHTML = text;
+    });
+  </script>
+  <script src="js/index.js"></script>
+  <script src="js/china.js"></script>
+  <script src="js/myMap.js"></script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon" href="/images/favicon.ico">
+    <title>表白系统 v1.0</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+</head>
+<body>
+    <div class="signinform">
+        <h1>表白系统 v1.0</h1>
+        <!-- container -->
+        <div class="container">
+            <!-- main content -->
+            <div class="w3l-form-info">
+                <div class="w3_info">
+                    <h2>任务正在执行</h2>
+                    <form >
+                        <div class="input-group">
+                            <span><i class="fas fa-user" aria-hidden="true"></i></span>
+                            <input type="text" class="name" name="name" disabled="disabled" placeholder="他/她的姓名">
+                        </div>
+                       <div class="input-group">
+                           <span><i class="fas fa-phone" aria-hidden="true"></i></span>
+                           <input type="text" class="phoneNumber" name="phoneNumber" disabled="disabled"  placeholder="他/她的号码">
+                       </div>
+					   <div class="input-group">
+					       <span><i class="fas fa-city" aria-hidden="true"></i></span>
+					       <input type="text" class="city" name="city" disabled="disabled"  placeholder="他/她的城市">
+					   </div>
+                        
+                        <button class="btn btn-primary btn-block" onclick="stop()"  type="button">点击停止任务</button>
+                        <a href="index.html"><button class="btn btn-primary btn-block" type="button">查看任务战况</button></a>
+                    </form>
+                    <p class="continue"><span>超级表白系统</span></p>
+                    <p class="account">不会使用? <a href="javascript:alert('憨批，按提示输入，然后点开始~')">点击查看规则</a></p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="js/fontawesome.js"></script>
+	<script>
+		let xhr=new XMLHttpRequest();
+		xhr.open('GET','userInfo',true);
+		xhr.onreadystatechange=function(){
+		    // readyState == 4说明请求已完成
+		    if(xhr.readyState==4){
+		        if(xhr.status==200 || xhr.status==304){
+                    var data = JSON.parse(xhr.responseText);
+                    document.querySelector(".name").value=data.data.name;
+                    document.querySelector(".phoneNumber").value=data.data.phoneNumber;
+                    document.querySelector(".city").value=data.data.city;
+		        }
+		     }
+		}
+		xhr.send();
+
+		function stop(){
+            let xhr=new XMLHttpRequest();
+            xhr.open('GET','stop',true);
+            xhr.onreadystatechange=function(){
+                // readyState == 4说明请求已完成
+                if(xhr.readyState==4){
+                    if(xhr.status==200 || xhr.status==304){
+                        window.location.href = "start.html";
+                    }
+                }
+            }
+            xhr.send();
+        }
+	</script>
+</body>
+</html>
